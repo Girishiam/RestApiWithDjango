@@ -2,14 +2,24 @@ from django.db import models
 
 # Create your models here.
 
-class Movies(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
-    active = models.BooleanField(default=True)
-
-    class Meta:
-        verbose_name = 'Movies'
-        verbose_name_plural = 'Movies'
+class StreamPlatforms(models.Model):
+    name = models.CharField(max_length=30)
+    about = models.CharField(max_length=150)
+    website = models.URLField(max_length=100)
 
     def __str__(self):
         return self.name
+
+class WatchList(models.Model):
+    platforms = models.ForeignKey(StreamPlatforms, on_delete=models.CASCADE,related_name="watchList")
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+    active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'WatchList'
+        verbose_name_plural = "WatchList's"
+
+    def __str__(self):
+        return self.title
